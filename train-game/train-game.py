@@ -130,11 +130,11 @@ def claim_path(player, path):
     return False
 
 
-def draw_from_deck(player, deck):
+def draw_from_deck(player, deck, discard):
     if len(deck.cards) == 0:
-        deck.cards = discard
+        deck.cards = discard[:]
         deck.shuffle()
-        discard = []
+        discard.clear()
     card = deck.cards.pop()
     player.color_cards[card.color] += 1
     return card
@@ -176,7 +176,7 @@ def main(player_count, player_names, color_order):
     discard = []
     deck.shuffle()
     random.shuffle(routes)
-    draw_set = deck.cards[:5]
+    draw_set = [deck.cards.pop() for _ in range(5)]
 
     for player in players:
         player.color_cards = {color: 0 for color in COLORS}
