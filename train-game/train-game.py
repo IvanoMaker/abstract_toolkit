@@ -43,7 +43,8 @@ class Path:
         self.path_owner = path_owner
 
 class Route:
-    def __init__(self, point_a, point_b, distance, achieved_by=None):
+    def __init__(self, route_id, point_a, point_b, distance, achieved_by=None):
+        self.route_id = route_id
         self.point_a = point_a
         self.point_b = point_b
         self.distance = distance
@@ -101,6 +102,7 @@ def setup():
 
     return connections_data, routes_data
 
+
 def can_claim_path(player, path):
     if path.path_owner is not None:
         return False
@@ -109,6 +111,42 @@ def can_claim_path(player, path):
     if player.color_cards[path.color] < int(path.distance):
         return False
     return True
+
+def claim_path(player, path):
+    if can_claim_path(player, path):
+        player.train_count -= int(path.distance)
+        player.color_cards[path.color] -= int(path.distance)
+        path.path_owner = player.name
+        player.score += ROUTE_SIZE_POINTS[int(path.distance)]
+        return True
+    return False
+
+
+def draw_from_deck(player, deck):
+    if len(deck.cards) == 0:
+        deck.cards = discard
+        deck.shuffle()
+        discard = []
+    card = deck.cards.pop()
+    player.color_cards[card.color] += 1
+    return card
+
+def draw_from_face_up(player, draw_cards, index):
+    if 0 <= index < len(draw_cards):
+        card = draw_cards.pop(index)
+        player.color_cards[card.color] += 1
+        return card
+    return None
+
+def draw_route(player, routes):
+    drawn_routes = []
+    if len(routes) == 0:
+        return None
+    for _ in range(2):
+        route = routes.pop()
+        player.routes.append(route)
+        drawn_routes.append(route)
+    return drawn_routes
 
 def main(player_count, player_names, color_order): 
     players = [Player(name, color) for name, color in zip(player_names, color_order)]
@@ -122,8 +160,19 @@ def main(player_count, player_names, color_order):
         dist_matrix[end_index][start_index] = int(path.distance)
 
     deck = Deck()
+    discard = []
     deck.shuffle()
+    random.shuffle(routes)
     draw_set = deck.cards[:5]
+
+    for player in players:
+        player.color_cards = {color: 0 for color in COLORS}
+        for _ in range(4):
+            card = deck.cards.pop()
+            player.color_cards[card.color] += 1
+        for _ in range(3):
+            route = routes.pop()
+            player.routes.append(route)
 
 if __name__ == "__main__":
     main(2, ['Alice', 'Bob'], ['blue', 'red'])
