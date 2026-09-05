@@ -21,7 +21,7 @@ CITIES = ['Atlanta', 'Boston', 'Calgary', 'Charleston', 'Chicago', 'Dallas',
               'Portland', 'Raleigh', 'Saint Louis', 'Salt Lake City', 'San Francisco', 'Santa Fe', 
               'Sault St Marie', 'Seattle', 'Toronto', 'Vancouver', 'Washington', 'Winnipeg']
 
-COLORS = ['na', 'green', 'pink', 'blue', 'white', 'yellow', 'orange', 'black', 'red']
+COLORS = ['multicolor', 'green', 'pink', 'blue', 'white', 'yellow', 'orange', 'black', 'red']
 TRAIN_COLORS = ['blue', 'green', 'red', 'yellow', 'black']
 
 ROUTE_SIZE_POINTS = {
@@ -58,6 +58,14 @@ class Player:
         self.color_cards = {color: 0 for color in COLORS}
         self.routes = []
         self.score = 0
+
+    def prompt_to_discard(self):
+        # TODO: Implement logic for player to discard route cards if they wish
+        return None
+
+    def prompt_for_move(self, paths, draw_cards, deck, routes, discard):
+        # TODO: Implement logic for player to choose a move (claim path, draw cards, draw routes)
+        return None
 
 class Card:
     def __init__(self, color):
@@ -152,12 +160,17 @@ def main(player_count, player_names, color_order):
     players = [Player(name, color) for name, color in zip(player_names, color_order)]
     paths, routes = setup()
     dist_matrix = [[0 for _ in range(len(CITIES))] for _ in range(len(CITIES))]
+    conn_matrix = [[0 for _ in range(len(CITIES))] for _ in range(len(CITIES))]
+    game_over = False
+    turn_counter = 0
 
     for path in paths:
         start_index = CITIES.index(path.start_city)
         end_index = CITIES.index(path.end_city)
         dist_matrix[start_index][end_index] = int(path.distance)
         dist_matrix[end_index][start_index] = int(path.distance)
+        conn_matrix[start_index][end_index] = 1
+        conn_matrix[end_index][start_index] = 1
 
     deck = Deck()
     discard = []
@@ -173,6 +186,29 @@ def main(player_count, player_names, color_order):
         for _ in range(3):
             route = routes.pop()
             player.routes.append(route)
+            returned_routes = player.prompt_to_discard()
+            if (returned_routes is not None):
+                for route in returned_routes:
+                    routes.append(route)
+
+
+
+    #while not game_over:
+    #    current_player = players[turn_counter % player_count]
+    #    move = current_player.prompt_for_move(paths, draw_set, deck, routes, discard)
+    #    turn_counter += 1
+    #    game_over = any(player.train_count <= 2 for player in players)
+            
 
 if __name__ == "__main__":
     main(2, ['Alice', 'Bob'], ['blue', 'red'])
+
+    # GENERAL TODO:
+    # - create algorithm to backtrack all routes belonging to a specific player to calculate longest train possible.
+    # - implement heuristic for bots
+    #   - weight moves according to how they affect the players ability to construct a path
+    #   - favor paths that are either close to being build (already have lots of the train cards for that paths) or the overall value of that paths
+    #   - favor working on route cards with highest value
+    # - implement bot decision making and general game flow
+    # - implement game end conditions and final scoring
+    # - basic output for showing the bots doing their thing.
