@@ -1,0 +1,101 @@
+"route_id","DestinationA","DestinationB","length","color"
+0,Montreal,Boston,2,na
+1,Montreal,Boston,2,na
+2,Montreal,New York,3,blue
+3,Montreal,Toronto,3,na
+4,Montreal,Sault St Marie,5,black
+5,Boston,New York,2,yellow
+6,Boston,New York,2,red
+7,New York,Pittsburgh,2,white
+8,New York,Pittsburgh,2,green
+9,New York,Washington,2,orange
+10,New York,Washington,2,black
+11,Pittsburgh,Washington,2,na
+12,Toronto,Pittsburgh,2,na
+13,Sault St Marie,Toronto,2,na
+14,Toronto,Duluth,6,pink
+15,Toronto,Chicago,4,white
+16,Pittsburgh,Chicago,3,orange
+17,Pittsburgh,Chicago,3,black
+18,Pittsburgh,Raleigh,2,na
+19,Pittsburgh,Saint Louis,5,green
+20,Pittsburgh,Nashville,4,yellow
+21,Washington,Raleigh,2,na
+22,Washington,Raleigh,2,na
+23,Raleigh,Nashville,3,black
+24,Raleigh,Atlanta,2,na
+25,Raleigh,Atlanta,2,na
+26,Raleigh,Charleston,2,na
+27,Atlanta,Charleston,2,na
+28,Nashville,Atlanta,1,na
+29,Charleston,Miami,4,pink
+30,Atlanta,Miami,5,blue
+31,New Orleans,Miami,6,red
+32,Atlanta,New Orleans,4,yellow
+33,Atlanta,New Orleans,4,orange
+34,Nashville,Saint Louis,2,na
+35,Nashville,Little Rock,3,white
+36,New Orleans,Little Rock,3,green
+37,Chicago,Saint Louis,2,green
+38,Chicago,Saint Louis,2,white
+39,Saint Louis,Little Rock,2,na
+40,New Orleans,Houston,2,na
+41,Houston,Dallas,1,na
+42,Houston,Dallas,1,na
+43,Dallas,Little Rock,2,na
+44,Dallas,Oklahoma City,2,na
+45,Dallas,Oklahoma City,2,na
+46,Kansas City,Oklahoma City,2,na
+47,Kansas City,Oklahoma City,2,na
+48,Oklahoma City,Little Rock,2,na
+49,Kansas City,Saint Louis,2,blue
+50,Kansas City,Saint Louis,2,pink
+51,Kansas City,Omaha,1,na
+52,Kansas City,Omaha,1,na
+53,Chicago,Omaha,4,blue
+54,Chicago,Duluth,3,red
+55,Omaha,Duluth,2,na
+56,Omaha,Duluth,2,na
+57,Sault St Marie,Duluth,3,na
+58,Sault St Marie,Winnipeg,6,na
+59,Winnipeg,Duluth,4,black
+60,Helena,Duluth,6,orange
+61,Helena,Omaha,5,red
+62,Denver,Omaha,4,pink
+63,Denver,Kansas City,4,black
+64,Denver,Kansas City,4,orange
+65,Oklahoma City,Denver,4,red
+66,Santa Fe,Oklahoma City,3,blue
+67,El Paso,Oklahoma City,5,yellow
+68,El Paso,Dallas,4,red
+69,El Paso,Houston,6,green
+70,Calgary,Winnipeg,6,white
+71,Winnipeg,Helena,4,blue
+72,Helena,Denver,4,green
+73,Denver,Santa Fe,2,na
+74,El Paso,Santa Fe,2,na
+75,Phoenix,Santa Fe,3,na
+76,Phoenix,El Paso,3,na
+77,Los Angeles,El Paso,6,black
+78,Los Angeles,Phoenix,3,na
+79,Los Angeles,Las Vegas,2,na
+80,Las Vegas,Salt Lake City,3,orange
+81,Phoenix,Denver,5,white
+82,Salt Lake City,Denver,3,red
+83,Salt Lake City,Denver,3,yellow
+84,Salt Lake City,Helena,3,pink
+85,Helena,Seattle,6,yellow
+86,Helena,Calgary,4,na
+87,Calgary,Vancouver,3,na
+88,Calgary,Seattle,4,na
+89,Vancouver,Seattle,1,na
+90,Vancouver,Seattle,1,na
+91,Seattle,Seattle,1,na
+92,Seattle,Seattle,1,na
+93,Portland,Salt Lake City,6,blue
+94,Portland,San Francisco,5,green
+95,Portland,San Francisco,5,pink
+96,Salt Lake City,San Francisco,5,orange
+97,Salt Lake City,San Francisco,5,white
+98,San Francisco,Los Angeles,3,yellow
+99,San Francisco,Los Angeles,3,pink
