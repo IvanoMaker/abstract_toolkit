@@ -38,7 +38,7 @@ class Path:
         self.path_id = path_id
         self.start_city = start_city
         self.end_city = end_city
-        self.distance = distance
+        self.distance = int(distance)
         self.color = color
         self.path_owner = path_owner
 
