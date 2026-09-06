@@ -42,6 +42,9 @@ class Path:
         self.color = color
         self.path_owner = path_owner
 
+    def is_occupied(self):
+        return self.path_owner is not None
+
 class Route:
     def __init__(self, route_id, point_a, point_b, distance, achieved_by=None):
         self.route_id = route_id
@@ -66,6 +69,21 @@ class Player:
     def prompt_for_move(self, paths, draw_cards, deck, routes, discard):
         # TODO: Implement logic for player to choose a move (claim path, draw cards, draw routes)
         return None
+
+    def get_total_cards(self):
+        return sum(self.color_cards.values())
+
+    def afford_path(self, path):
+        color = path.color
+        length = path.distance
+        
+        if (color == "na"):
+            if (self.get_total_cards() >= length):
+                return True
+        else:
+            if ((self.color_cards[color] + self.color_cards["multicolor"]) >= length):
+                return True
+        return False
 
 class Card:
     def __init__(self, color):
@@ -112,18 +130,18 @@ def setup():
 
 
 def can_claim_path(player, path):
-    if path.path_owner is not None:
-        return False
-    if player.train_count < int(path.distance):
-        return False
-    if player.color_cards[path.color] < int(path.distance):
-        return False
-    return True
+    if not (path.is_occupied()):
+        if player.train_count < path.distance:
+            return False
+        if player.color_cards[path.color] < path.distance:
+            return False
+        return True
+    return False
 
 def claim_path(player, path):
     if can_claim_path(player, path):
-        player.train_count -= int(path.distance)
-        player.color_cards[path.color] -= int(path.distance)
+        player.train_count -= path.distance
+        player.color_cards[path.color] -= path.distance
         path.path_owner = player.name
         player.score += ROUTE_SIZE_POINTS[int(path.distance)]
         return True
@@ -173,7 +191,6 @@ def main(player_count, player_names, color_order):
         conn_matrix[end_index][start_index] = 1
 
     deck = Deck()
-    discard = []
     deck.shuffle()
     random.shuffle(routes)
     draw_set = [deck.cards.pop() for _ in range(5)]
