@@ -76,13 +76,17 @@ class Player:
     def afford_path(self, path):
         color = path.color
         length = path.distance
-        
-        if (color == "na"):
-            if (self.get_total_cards() >= length):
-                return True
-        else:
-            if ((self.color_cards[color] + self.color_cards["multicolor"]) >= length):
-                return True
+
+        if (path.is_occupied()):
+            return False
+
+        if (self.train_count >= path.distance):        
+            if (color == "na"):
+                if (self.get_total_cards() >= length):
+                    return True
+            else:
+                if ((self.color_cards[color] + self.color_cards["multicolor"]) >= length):
+                    return True
         return False
 
 class Card:
@@ -132,26 +136,6 @@ def setup():
             routes_data.append(Route(*row))
 
     return connections_data, routes_data
-
-
-def can_claim_path(player, path):
-    if not (path.is_occupied()):
-        if player.train_count < path.distance:
-            return False
-        if player.color_cards[path.color] < path.distance:
-            return False
-        return True
-    return False
-
-def claim_path(player, path):
-    if can_claim_path(player, path):
-        player.train_count -= path.distance
-        player.color_cards[path.color] -= path.distance
-        path.path_owner = player.name
-        player.score += ROUTE_SIZE_POINTS[int(path.distance)]
-        return True
-    return False
-
 
 def draw_from_deck(player, deck, discard):
     if len(deck.cards) == 0:
