@@ -92,10 +92,15 @@ class Card:
 class Deck:
     def __init__(self):
         self.cards = []
+        self.discard = []
         for color, count in TOTAL_COLOR_CARDS.items():
             self.cards.extend([Card(color) for _ in range(count)])
     def shuffle(self):
         random.shuffle(self.cards)
+    def reshuffle_discard(self):
+        self.cards = self.discard[:]
+        self.discard = []
+        self.shuffle()
 
 
 def read_csv(file_path):
