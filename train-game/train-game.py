@@ -74,20 +74,13 @@ class Player:
         return sum(self.color_cards.values())
 
     def afford_path(self, path):
-        color = path.color
-        length = path.distance
-
-        if (path.is_occupied()):
+        if path.is_occupied():
             return False
-
-        if (self.train_count >= path.distance):        
-            if (color == "na"):
-                if (self.get_total_cards() >= length):
-                    return True
-            else:
-                if ((self.color_cards[color] + self.color_cards["multicolor"]) >= length):
-                    return True
-        return False
+        if self.train_count < path.distance:
+            return False
+        if path.color == "na":
+            return self.get_total_cards() >= path.distance
+        return (self.color_cards[path.color] + self.color_cards["multicolor"]) >= path.distance
 
 class Card:
     def __init__(self, color):
