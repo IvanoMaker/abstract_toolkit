@@ -70,9 +70,11 @@ class Player:
         # TODO: Implement logic for player to choose a move (claim path, draw cards, draw routes)
         return None
 
+    # return total number of train cards the player has
     def get_total_cards(self):
         return sum(self.color_cards.values())
 
+    # boolean function for determining if the player can afford the provided path
     def afford_path(self, path):
         if path.is_occupied():
             return False
@@ -81,6 +83,33 @@ class Player:
         if path.color == "na":
             return self.get_total_cards() >= path.distance
         return (self.color_cards[path.color] + self.color_cards["multicolor"]) >= path.distance
+
+    # return a list of all possible payment options for the provided path
+    def get_payment_options(self, path):
+        if not self.afford_path(path):  # if the player cant afford the path, return an empty list
+            return []
+
+        length = path.distance  # get the length of the path
+        # determine which colors to try based on the path's color
+        colors_to_try = [path.color] if path.color != "na" else \
+            [c for c in COLORS if c != "multicolor"]
+        options = []
+
+        # iterate through the colors to try and calculate all possible payment options
+        for color in colors_to_try:
+            max_wild = min(self.color_cards["multicolor"], length)
+            for wild_used in range(max_wild + 1):
+                main_used = length - wild_used
+                if main_used <= self.color_cards[color]:
+                    option = {}
+                    if main_used > 0:
+                        option[color] = main_used
+                    if wild_used > 0:
+                        option["multicolor"] = wild_used
+                    if option not in options:
+                        options.append(option)
+
+        return options
 
 class Card:
     def __init__(self, color):
@@ -155,6 +184,16 @@ def draw_route(player, routes):
         player.routes.append(route)
         drawn_routes.append(route)
     return drawn_routes
+
+def claim_path(player, path, payment):
+    if payment not in player.get_payment_options(path):
+        return False
+    for color, count in payment.items():
+        player.color_cards[color] -= count
+    player.train_count -= path.distance
+    path.path_owner = player.name
+    player.score += ROUTE_SIZE_POINTS[path.distance]
+    return True
 
 def main(player_count, player_names, color_order): 
     players = [Player(name, color) for name, color in zip(player_names, color_order)]
